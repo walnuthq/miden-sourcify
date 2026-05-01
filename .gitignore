@@ -72,4 +72,6 @@ temp/
 # Agents
 .agents
 .claude
+docs/agents
+CLAUDE.md
 skills-lock.json

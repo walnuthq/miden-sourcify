@@ -1,0 +1,18 @@
+services:
+  compiler:
+    build:
+      context: compiler
+      dockerfile: Dockerfile
+    image: miden-sourcify-compiler
+    container_name: miden-sourcify-compiler
+    ports:
+      - "3003:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:3000/"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 10s

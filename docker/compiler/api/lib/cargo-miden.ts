@@ -1,0 +1,26 @@
+import { execFile } from "@/lib/utils.js";
+
+export const cargoMidenVersion = async () => {
+  const { stdout } = await execFile("cargo", ["miden", "--version"]);
+  const [, version = ""] = stdout.split(" ").map((part) => part.trim());
+  const [major, minor, patch] = version.split(".");
+  return `${major}.${minor}.${patch}`;
+};
+
+export const cargoMidenBuild = async (projectDir: string) => {
+  try {
+    const { stdout, stderr } = await execFile(
+      "cargo",
+      ["miden", "build", "--release"],
+      {
+        cwd: projectDir,
+        env: { ...process.env, CARGO_TARGET_DIR: "/cache/target" },
+      },
+    );
+    return { stdout, stderr };
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "cargo-miden failed";
+    return { error: message };
+  }
+};
