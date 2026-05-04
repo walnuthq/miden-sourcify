@@ -6,9 +6,9 @@ import { describe, it, expect } from "vitest";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const templateDir = path.resolve(__dirname, "../../project-template");
+const templateDir = path.resolve(__dirname, "../project-template");
 
-const api = request("http://localhost:3003");
+const api = request(process.env.API_URL ?? "http://localhost:8080");
 
 const readProjectFiles = async (
   rootDir: string,

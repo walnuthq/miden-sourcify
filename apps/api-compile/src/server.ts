@@ -1,19 +1,15 @@
-import { fileURLToPath } from "node:url";
 import express from "express";
 import { cargoMidenVersion } from "@/lib/cargo-miden.js";
 import { compile } from "@/lib/compile.js";
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 app.use(express.json({ limit: "1mb" }));
 
 app.get("/", async (req, res) => {
   res.json({
     timestamp: Date.now(),
-    env: {
-      NODE_ENV: process.env.NODE_ENV,
-    },
+    env: { PORT: process.env.PORT },
     cargoMidenVersion: await cargoMidenVersion(),
   });
 });
@@ -44,6 +40,8 @@ app.post("/compile", async (req, res) => {
     res.status(500).json({ error: message });
   }
 });
+
+const port = process.env.PORT ?? "8080";
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
